@@ -2,8 +2,8 @@ import sys
 
 from setuptools import setup
 
-if sys.version < '3.4':
-    raise RuntimeError('python 3.4 required')
+if sys.version_info < (3, 4):
+    raise RuntimeError('Python version must be at least 3.4')
 
 try:
     import pypandoc
