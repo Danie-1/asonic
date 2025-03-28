@@ -18,13 +18,14 @@ from asonic.enums import Channel
 
 
 async def main():
-  c = await Client.create(
+  c = Client.create(
     host="127.0.0.1",
     port=1491,
     password="SecretPassword",
-    channel=Channel.SEARCH,
     max_connections=100
   )
+  await client.channel(Channel.SEARCH)
+  # To make these asserts give the right result, run the 'Ingest channel' example first
   assert (await c.query('collection', 'bucket', 'quick')) == [b'user_id']
   assert (await c.suggest('collection', 'bucket', 'br', 1)) == [b'brown']
 
@@ -43,13 +44,13 @@ from asonic.enums import Channel
 
 
 async def main():
-  c = await Client.create(
+  c = Client.create(
     host="127.0.0.1",
     port=1491,
     password="SecretPassword",
-    channel=Channel.INGEST,
     max_connections=100
   )
+  await c.channel(Channel.INGEST)
   await c.push('collection', 'bucket', 'user_id', 'The quick brown fox jumps over the lazy dog')
   # Return b'OK'
   await c.pop('collection', 'bucket', 'user_id', 'The')
@@ -71,12 +72,12 @@ from asonic.enums import Channel, Action
 
 
 async def main():
-  c = await Client.create(
+  c = Client.create(
     host="127.0.0.1",
     port=1491,
     password="SecretPassword",
-    channel=Channel.CONTROL,
   )
+  await c.channel(Channel.CONTROL)
   await c.trigger(Action.CONSOLIDATE)
   # Return b'OK'
 
